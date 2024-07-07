@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Websocket Testing Ground</title>
+    </head>
+
+    <body>
+        <script type="importmap">
+            {
+                "imports": {
+                    "@stomp/stompjs": "https://ga.jspm.io/npm:@stomp/stompjs@7.0.0/esm6/index.js"
+                }
+            }
+        </script>
+  
+        <!-- ES Module Shims: Import maps polyfill for modules browsers without import maps support (all except Chrome 89+) -->
+        <script
+            async
+            src="https://ga.jspm.io/npm:es-module-shims@1.5.1/dist/es-module-shims.js"
+            crossorigin="anonymous"
+        ></script>
+        
+        <h1>Lets test some websocket things</h1>
+
+
+        <script type="module">
+            import { Client } from "@stomp/stompjs"
+            const client = new Client({
+                brokerURL: 'ws://localhost:9999/endpoint1',
+                onConnect: () => {
+                    console.log('Connected ...');
+                    client.subscribe('/topic/test', msg => {
+                        console.log('Received: ' + msg.body)
+                    });
+                }
+            });
+
+            client.activate();
+        </script>
+    </body>
+
+</html>
